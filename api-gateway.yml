@@ -1,0 +1,45 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+      - id: CustomerModule
+        uri: http://localhost:8091/
+        predicates:
+        - Path=/customer/**
+      - id: ProductModule
+        uri: http://localhost:8092/
+        predicates:
+        - Path=/product/**
+      - id: ProductModuleReplica2
+        uri: http://localhost:8093/
+        predicates:
+        - Path=/product/**
+      - id: ProductModuleReplica3
+        uri: http://localhost:8094/
+        predicates:
+        - Path=/product/**
+      - id: ShoppingCartCommandModule
+        uri: lb://ShoppingCartCommandService #http://localhost:8095/
+        predicates:
+        - Path=/shoppingcommand/**
+      - id: ShoppingCartQueryModule
+        uri: lb://ShoppingCartQueryService #http://localhost:8096/
+        predicates:
+        - Path=/shoppingquery/**
+      - id: OrderModule
+        uri: lb://OrderService #http://localhost:8097/
+        predicates:
+        - Path=/order/**
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eurekaserver1:8761/eureka/, http://eurekaserver2:8762/eureka/
+
+
+
