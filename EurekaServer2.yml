@@ -1,6 +1,10 @@
 server:
   port: 8762
  
+spring:
+  application:
+    name: EurekaServer2
+
 eureka:
   instance:
     hostname: eurekaserver1
